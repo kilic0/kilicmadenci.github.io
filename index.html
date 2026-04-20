@@ -16,7 +16,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            overflow: hidden; /* Masaüstünde kaydırmayı kapat */
+            overflow: hidden;
         }
 
         .container {
@@ -119,60 +119,82 @@
             font-style: italic;
         }
 
-        /* --- MOBİL UYUM (RESPONSIVE DESIGN) --- */
+        /* --- YENİ MOBİL UYUM (2x2 GRID TASARIMI) --- */
         @media (max-width: 850px) {
             body {
-                overflow-y: auto; /* Telefonda kaydırmaya izin ver */
+                overflow-y: auto; 
                 align-items: flex-start;
-                padding: 15px;
+                padding: 10px;
                 box-sizing: border-box;
             }
 
             .container {
                 width: 100%;
                 height: auto;
-                min-height: 100vh;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
+                min-height: auto;
+                /* Tüm yapıyı ızgaraya çeviriyoruz */
+                display: grid;
+                grid-template-columns: repeat(2, 1fr); /* 2 Eşit Sütun */
+                gap: 15px;
+                padding: 15px;
                 border-width: 4px;
-                padding: 20px 10px;
-            }
-
-            .vignette {
-                position: relative; /* Köşelerden kurtar */
-                top: auto; left: auto; right: auto; bottom: auto;
-                margin: 15px 0;
-                width: 90%; /* Ekranı kaplasın */
-                max-width: 350px;
-                height: auto;
-            }
-
-            .vignette img {
-                height: 180px; /* Telefonda resimler biraz daha büyük olsun */
-            }
-
-            .vignette:hover {
-                transform: scale(1.02); /* Mobilde dönüş efekti abartılı durmasın */
             }
 
             .center-panel {
-                position: relative; /* Sabit ortalamadan kurtar */
+                position: relative;
                 top: auto; left: auto;
                 transform: none;
-                width: 95%;
-                margin: 0 0 30px 0;
-                order: -1; /* Metin kutusunu en üste al */
-                min-height: auto;
-                padding: 25px 15px;
+                grid-column: 1 / 3; /* Metin kutusu 2 sütunu da kaplar (en üstte) */
+                width: 100%;
+                min-height: 160px;
+                padding: 20px 15px;
+                margin-bottom: 10px;
+                box-shadow: none;
+                border-width: 4px;
             }
 
             .center-panel h2 {
-                font-size: 20px;
+                font-size: 18px;
+                margin-bottom: 10px;
             }
 
             .center-panel p {
-                font-size: 15px;
+                font-size: 14px;
+                line-height: 1.5;
+            }
+
+            .vignette {
+                position: relative;
+                top: auto; left: auto; right: auto; bottom: auto;
+                width: 100%;
+                height: auto;
+                margin: 0;
+                /* Kart içeriğini esnek yapalım */
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                box-shadow: 3px 3px 0px #d35400;
+                border-width: 2px;
+                padding: 8px;
+            }
+
+            .vignette img {
+                height: 100px; /* Ekrana sığması için daha kompakt resimler */
+                object-fit: cover;
+            }
+
+            .vignette h3 {
+                font-size: 12px; /* Mobilde daha okunaklı küçük başlıklar */
+                margin-top: 8px;
+                letter-spacing: 0;
+            }
+
+            .vignette:hover {
+                transform: scale(1.02); /* Mobilde devasa zıplamaları engelle */
+            }
+
+            .vignette.selected {
+                transform: scale(1.05);
             }
         }
     </style>
@@ -247,7 +269,7 @@
                 }
                 updateCenterPanel();
 
-                // Telefonda tıklandığında ekranı en üste (yazıya) kaydır
+                // Mobilde metni okumak için hafifçe yukarı kaydır (opsiyonel)
                 if (window.innerWidth <= 850) {
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 }
