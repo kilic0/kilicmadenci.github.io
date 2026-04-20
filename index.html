@@ -15,8 +15,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh;
+            overflow: hidden; /* Masaüstünde kaydırmayı kapat */
         }
 
         .container {
@@ -29,6 +29,7 @@
             border-radius: 20px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.3);
             border: 8px solid #c0392b;
+            box-sizing: border-box;
         }
 
         .vignette {
@@ -72,6 +73,7 @@
             text-transform: uppercase;
         }
 
+        /* Masaüstü Konumları */
         .top-left { top: 30px; left: 30px; }
         .top-right { top: 30px; right: 30px; }
         .bottom-left { bottom: 30px; left: 30px; }
@@ -93,6 +95,7 @@
             flex-direction: column;
             justify-content: center;
             min-height: 300px;
+            box-sizing: border-box;
         }
 
         .center-panel h2 {
@@ -115,28 +118,85 @@
             color: #7f8c8d !important;
             font-style: italic;
         }
+
+        /* --- MOBİL UYUM (RESPONSIVE DESIGN) --- */
+        @media (max-width: 850px) {
+            body {
+                overflow-y: auto; /* Telefonda kaydırmaya izin ver */
+                align-items: flex-start;
+                padding: 15px;
+                box-sizing: border-box;
+            }
+
+            .container {
+                width: 100%;
+                height: auto;
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                border-width: 4px;
+                padding: 20px 10px;
+            }
+
+            .vignette {
+                position: relative; /* Köşelerden kurtar */
+                top: auto; left: auto; right: auto; bottom: auto;
+                margin: 15px 0;
+                width: 90%; /* Ekranı kaplasın */
+                max-width: 350px;
+                height: auto;
+            }
+
+            .vignette img {
+                height: 180px; /* Telefonda resimler biraz daha büyük olsun */
+            }
+
+            .vignette:hover {
+                transform: scale(1.02); /* Mobilde dönüş efekti abartılı durmasın */
+            }
+
+            .center-panel {
+                position: relative; /* Sabit ortalamadan kurtar */
+                top: auto; left: auto;
+                transform: none;
+                width: 95%;
+                margin: 0 0 30px 0;
+                order: -1; /* Metin kutusunu en üste al */
+                min-height: auto;
+                padding: 25px 15px;
+            }
+
+            .center-panel h2 {
+                font-size: 20px;
+            }
+
+            .center-panel p {
+                font-size: 15px;
+            }
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
         <div class="vignette top-left" data-id="my_name">
-            <img src="https://images.unsplash.com/photo-1509660933844-6910e12765a0?auto=format&fit=crop&w=300" alt="Window">
+            <img src="https://images.unsplash.com/photo-1509660933844-6910e12765a0?auto=format&fit=crop&w=400" alt="Window">
             <h3>My Name</h3>
         </div>
         
         <div class="vignette top-right" data-id="smart_cookie">
-            <img src="https://images.unsplash.com/photo-1516962215378-7fa2e137ae93?auto=format&fit=crop&w=300" alt="Needle">
+            <img src="https://images.unsplash.com/photo-1516962215378-7fa2e137ae93?auto=format&fit=crop&w=400" alt="Needle">
             <h3>A Smart Cookie</h3>
         </div>
         
         <div class="vignette bottom-left" data-id="no_speak">
-            <img src="https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=300" alt="House">
+            <img src="https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=400" alt="House">
             <h3>No Speak English</h3>
         </div>
         
         <div class="vignette bottom-right" data-id="mango">
-            <img src="https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?auto=format&fit=crop&w=300" alt="Mango">
+            <img src="https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?auto=format&fit=crop&w=400" alt="Mango">
             <h3>Mango Says Goodbye</h3>
         </div>
 
@@ -186,6 +246,11 @@
                     selectedVignettes.push({id, title});
                 }
                 updateCenterPanel();
+
+                // Telefonda tıklandığında ekranı en üste (yazıya) kaydır
+                if (window.innerWidth <= 850) {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
             });
         });
 
