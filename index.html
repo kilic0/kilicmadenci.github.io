@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vignette Connections</title>
+    <title>Vignette Connections - Mango Street Edition</title>
     <style>
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f4f9;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            /* Meksika "Papel Picado" ve toprak tonlarını andıran gradyan */
+            background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);
+            background-image: radial-gradient(#ffffff33 1px, transparent 1px);
+            background-size: 20px 20px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -17,94 +20,116 @@
             overflow: hidden;
         }
 
+        /* Meksika mimarisini andıran ana konteyner */
         .container {
             position: relative;
             width: 90vw;
             height: 90vh;
             max-width: 1200px;
             max-height: 800px;
-            background: #ffffff;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            background: #fff5e6; /* Krem rengi kerpiç duvar tonu */
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            border: 8px solid #c0392b; /* Kiremit kırmızısı çerçeve */
         }
 
         .vignette {
             position: absolute;
             width: 180px;
-            height: 200px;
+            height: 220px;
             cursor: pointer;
             text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border-radius: 10px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 12px;
             background: #fff;
-            padding: 10px;
+            padding: 12px;
             box-sizing: border-box;
-            border: 2px solid transparent;
+            border: 3px solid #f1c40f; /* Altın sarısı detaylar */
+            box-shadow: 5px 5px 0px #d35400;
         }
 
         .vignette:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transform: translateY(-10px) rotate(2deg);
+            box-shadow: 10px 10px 20px rgba(0,0,0,0.2);
         }
 
         .vignette.selected {
-            border-color: #e74c3c;
-            box-shadow: 0 0 15px rgba(231, 76, 60, 0.4);
-            transform: scale(1.05);
+            border-color: #27ae60; /* Seçildiğinde parlak Meksika yeşili */
+            box-shadow: 0 0 20px rgba(39, 174, 96, 0.6);
+            transform: scale(1.1);
+            z-index: 10;
         }
 
         .vignette img {
             width: 100%;
-            height: 120px;
+            height: 130px;
             object-fit: cover;
-            border-radius: 8px;
-            background-color: #ddd;
+            border-radius: 5px;
+            border-bottom: 2px solid #eee;
         }
 
         .vignette h3 {
-            margin: 10px 0 0 0;
-            font-size: 16px;
-            color: #333;
+            margin: 12px 0 0 0;
+            font-size: 15px;
+            font-weight: bold;
+            color: #2c3e50;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .top-left { top: 20px; left: 20px; }
-        .top-right { top: 20px; right: 20px; }
-        .bottom-left { bottom: 20px; left: 20px; }
-        .bottom-right { bottom: 20px; right: 20px; }
+        /* Köşe Konumları */
+        .top-left { top: 30px; left: 30px; }
+        .top-right { top: 30px; right: 30px; }
+        .bottom-left { bottom: 30px; left: 30px; }
+        .bottom-right { bottom: 30px; right: 30px; }
 
+        /* Orta Panel - Talavera Seramiği Stili */
         .center-panel {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 50%;
-            padding: 30px;
-            background: #fff;
-            border: 2px dashed #ccc;
-            border-radius: 15px;
+            width: 45%;
+            padding: 40px;
+            background: #ffffff;
+            border: 6px double #2980b9; /* Meksika mavisi */
+            border-radius: 0px; /* Klasik seramik karo görünümü */
             text-align: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             display: flex;
             flex-direction: column;
             justify-content: center;
-            min-height: 200px;
+            min-height: 250px;
+        }
+
+        /* Süsleme öğeleri */
+        .center-panel::before, .center-panel::after {
+            content: "✿";
+            color: #c0392b;
+            font-size: 24px;
+            display: block;
         }
 
         .center-panel h2 {
-            margin-top: 0;
-            color: #2c3e50;
-            font-size: 22px;
+            margin: 15px 0;
+            color: #c0392b;
+            font-family: 'Georgia', serif;
+            font-size: 26px;
+            border-bottom: 2px solid #f1c40f;
+            display: inline-block;
+            padding-bottom: 5px;
         }
 
         .center-panel p {
-            color: #555;
-            font-size: 16px;
-            line-height: 1.6;
+            color: #444;
+            font-size: 17px;
+            line-height: 1.8;
+            font-style: italic;
         }
 
         .instruction {
-            color: #888;
-            font-style: italic;
+            color: #7f8c8d !important;
+            font-size: 15px !important;
         }
     </style>
 </head>
@@ -112,39 +137,39 @@
 
     <div class="container">
         <div class="vignette top-left" data-id="my_name">
-            <img src="https://via.placeholder.com/150/FF9999/FFFFFF?text=Window" alt="My Name">
+            <img src="https://images.unsplash.com/photo-1509660933844-6910e12765a0?q=80&w=300&auto=format&fit=crop" alt="Window">
             <h3>My Name</h3>
         </div>
         
         <div class="vignette top-right" data-id="smart_cookie">
-            <img src="https://via.placeholder.com/150/99CCFF/FFFFFF?text=Needle+Thread" alt="A Smart Cookie">
+            <img src="https://images.unsplash.com/photo-1516962215378-7fa2e137ae93?q=80&w=300&auto=format&fit=crop" alt="Needle">
             <h3>A Smart Cookie</h3>
         </div>
         
         <div class="vignette bottom-left" data-id="no_speak">
-            <img src="https://via.placeholder.com/150/99FF99/FFFFFF?text=Pink+House" alt="No Speak English">
+            <img src="https://images.unsplash.com/photo-1518780664697-55e3ad937233?q=80&w=300&auto=format&fit=crop" alt="House">
             <h3>No Speak English</h3>
         </div>
         
         <div class="vignette bottom-right" data-id="mango">
-            <img src="https://via.placeholder.com/150/FFCC99/FFFFFF?text=Books" alt="Mango Says Goodbye">
+            <img src="https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?q=80&w=300&auto=format&fit=crop" alt="Mango">
             <h3>Mango Says Goodbye</h3>
         </div>
 
         <div class="center-panel" id="centerPanel">
-            <h2 id="connectionTitle">Explore the Connection</h2>
-            <p id="connectionText" class="instruction">Select 2 vignettes from the corners to see their common themes and connections.</p>
+            <h2 id="connectionTitle">Mango Street</h2>
+            <p id="connectionText" class="instruction">Bağlantıları keşfetmek için iki hikaye seçin.</p>
         </div>
     </div>
 
     <script>
         const connections = {
-            "my_name_smart_cookie": "Both women had great internal potential but were forced to confine it within domestic spaces due to social pressures, poverty, or the shame of not fitting in.",
-            "my_name_no_speak": "Both characters are trapped in a state of confinement where the window becomes a seat for sadness. One is limited by a forced marriage and the other by a language barrier.",
-            "my_name_mango": "Esperanza shares her great grandmother's name but refuses to inherit her fate of looking out the window. She uses her identity to write a different future.",
-            "smart_cookie_no_speak": "These narratives show how external obstacles like language barriers and the shame of poverty create invisible cages that restrict women to their homes.",
-            "smart_cookie_mango": "While the mother sacrificed her education due to shame, Esperanza learns from this tragedy and uses literacy as a tool to gain the freedom her mother lost.",
-            "no_speak_mango": "Mamacita remains trapped by her longing for the past and her inability to speak the new language, while Esperanza masters language to leave the street and define her own path."
+            "my_name_smart_cookie": "Her iki kadın da büyük bir potansiyele sahipti ancak yoksulluk veya toplumsal baskılar nedeniyle ev içi alanlara hapsedildiler.",
+            "my_name_no_speak": "Her iki karakter de pencerelerin birer hüzün koltuğuna dönüştüğü bir hapis hayatı yaşıyor; biri zorla evlilik, diğeri dil bariyeri yüzünden.",
+            "my_name_mango": "Esperanza büyükannesinin adını taşıyor ama onun 'pencereden dışarı bakma' kaderini miras almayı reddediyor. Kimliğini kendi geleceğini yazmak için kullanıyor.",
+            "smart_cookie_no_speak": "Bu anlatılar, dil bariyerleri ve yoksulluk utancının kadınları evlerine hapseden nasıl görünmez kafesler yarattığını gösteriyor.",
+            "smart_cookie_mango": "Anne, utanç yüzünden eğitimini feda etmiş olsa da, Esperanza bu trajediden ders çıkarıyor ve okuryazarlığı özgürlük aracı olarak kullanıyor.",
+            "no_speak_mango": "Mamacita geçmişe olan özlemi ve yeni dili konuşamamasıyla kapalı kalırken, Esperanza dili ustalıkla kullanarak kendi yolunu çiziyor."
         };
 
         const vignettes = document.querySelectorAll('.vignette');
@@ -167,7 +192,6 @@
                     const firstSelected = document.querySelector(`.vignette[data-id="${selectedVignettes[0].id}"]`);
                     firstSelected.classList.remove('selected');
                     selectedVignettes.shift();
-                    
                     this.classList.add('selected');
                     selectedVignettes.push({id, title});
                 }
@@ -183,22 +207,20 @@
             if (selectedVignettes.length === 2) {
                 const id1 = selectedVignettes[0].id;
                 const id2 = selectedVignettes[1].id;
-                
                 let connectionKey = `${id1}_${id2}`;
                 if (!connections[connectionKey]) {
                     connectionKey = `${id2}_${id1}`;
                 }
-
-                titleEl.innerText = `${selectedVignettes[0].title} and ${selectedVignettes[1].title}`;
-                textEl.innerText = connections[connectionKey] || "No connection text found for these two stories.";
+                titleEl.innerText = `${selectedVignettes[0].title} & ${selectedVignettes[1].title}`;
+                textEl.innerText = connections[connectionKey];
                 textEl.classList.remove('instruction');
             } else if (selectedVignettes.length === 1) {
                 titleEl.innerText = selectedVignettes[0].title;
-                textEl.innerText = "Select one more vignette to see the connection.";
+                textEl.innerText = "Bağlantıyı görmek için bir tane daha seçin.";
                 textEl.classList.add('instruction');
             } else {
-                titleEl.innerText = "Explore the Connection";
-                textEl.innerText = "Select 2 vignettes from the corners to see their common themes and connections.";
+                titleEl.innerText = "Mango Street";
+                textEl.innerText = "Bağlantıları keşfetmek için iki hikaye seçin.";
                 textEl.classList.add('instruction');
             }
         }
