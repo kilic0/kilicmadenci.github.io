@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -58,7 +58,7 @@
             height: 120px;
             object-fit: cover;
             border-radius: 8px;
-            background-color: #ddd; /* Fotoğraf yüklenmezse gri arka plan */
+            background-color: #ddd;
         }
 
         .vignette h3 {
@@ -67,13 +67,11 @@
             color: #333;
         }
 
-        /* 4 Köşe Konumlandırması */
         .top-left { top: 20px; left: 20px; }
         .top-right { top: 20px; right: 20px; }
         .bottom-left { bottom: 20px; left: 20px; }
         .bottom-right { bottom: 20px; right: 20px; }
 
-        /* Merkez Bağlantı Paneli */
         .center-panel {
             position: absolute;
             top: 50%;
@@ -134,20 +132,19 @@
         </div>
 
         <div class="center-panel" id="centerPanel">
-            <h2 id="connectionTitle">Bağlantıyı Keşfet</h2>
-            <p id="connectionText" class="instruction">Ortak temaları ve bağlantıları görmek için köşelerdeki 4 vignetteden 2 tanesini seçin.</p>
+            <h2 id="connectionTitle">Explore the Connection</h2>
+            <p id="connectionText" class="instruction">Select 2 vignettes from the corners to see their common themes and connections.</p>
         </div>
     </div>
 
     <script>
-        // Bağlantı metinleri veri tabanı
         const connections = {
-            "my_name_smart_cookie": "İkisi de içsel potansiyellerini (biri 'vahşi at', diğeri 'zeki kız' olarak) toplumsal baskılar, yoksulluk utancı veya zorbalık nedeniyle ev içine hapsetmek zorunda kalmıştır.",
-            "my_name_no_speak": "Ortak Sembol: 'Pencere'. İkisi de bu hapsolmuşluğu yaşar; büyük babaanne zorla evlilikle, Mamacita ise dil bariyeriyle dünyayı sadece izledikleri bir 'hüzün koltuğuna' mahkum olmuştur.",
-            "my_name_mango": "Mirasın Reddi: Esperanza büyük babaannesinin ismini alsa da, onun pencere kenarındaki hüzünlü kaderini miras almayı kesin bir dille reddederek kendi kimliğini yazar.",
-            "smart_cookie_no_speak": "Kadın potansiyelinin dış engeller (dil bariyeri ve yoksulluk utancı) yüzünden nasıl 'görünmez kafeslere' hapsolduğunu gösterirler. İkisi de eve kapanmış figürlerdir.",
-            "smart_cookie_mango": "Annesi zekasına rağmen potansiyelini utanç yüzünden harcamışken, Esperanza annesinin bu trajik hikayesinden ders alıp okuyarak ve yazarak kendi özgürlüğünü eline alır.",
-            "no_speak_mango": "Mamacita dil bariyeriyle geçmişe hapsolup 'pembe evine' hasret kalırken, Esperanza yeni dilin (yazmanın) gücünü kullanarak Mango Sokağı'na veda edip kendi geleceğini inşa eder."
+            "my_name_smart_cookie": "Both women had great internal potential but were forced to confine it within domestic spaces due to social pressures, poverty, or the shame of not fitting in.",
+            "my_name_no_speak": "Both characters are trapped in a state of confinement where the window becomes a seat for sadness. One is limited by a forced marriage and the other by a language barrier.",
+            "my_name_mango": "Esperanza shares her great grandmother's name but refuses to inherit her fate of looking out the window. She uses her identity to write a different future.",
+            "smart_cookie_no_speak": "These narratives show how external obstacles like language barriers and the shame of poverty create invisible cages that restrict women to their homes.",
+            "smart_cookie_mango": "While the mother sacrificed her education due to shame, Esperanza learns from this tragedy and uses literacy as a tool to gain the freedom her mother lost.",
+            "no_speak_mango": "Mamacita remains trapped by her longing for the past and her inability to speak the new language, while Esperanza masters language to leave the street and define her own path."
         };
 
         const vignettes = document.querySelectorAll('.vignette');
@@ -158,17 +155,14 @@
                 const id = this.getAttribute('data-id');
                 const title = this.querySelector('h3').innerText;
 
-                // Zaten seçiliyse seçimi kaldır
                 if (selectedVignettes.some(item => item.id === id)) {
                     this.classList.remove('selected');
                     selectedVignettes = selectedVignettes.filter(item => item.id !== id);
                 } 
-                // İkiden az seçim varsa ekle
                 else if (selectedVignettes.length < 2) {
                     this.classList.add('selected');
                     selectedVignettes.push({id, title});
                 } 
-                // İki tane zaten seçiliyse, ilkini çıkar, yenisini ekle
                 else {
                     const firstSelected = document.querySelector(`.vignette[data-id="${selectedVignettes[0].id}"]`);
                     firstSelected.classList.remove('selected');
@@ -190,22 +184,21 @@
                 const id1 = selectedVignettes[0].id;
                 const id2 = selectedVignettes[1].id;
                 
-                // İki ID'nin kombinasyonunu bul (sıra fark etmeksizin)
                 let connectionKey = `${id1}_${id2}`;
                 if (!connections[connectionKey]) {
                     connectionKey = `${id2}_${id1}`;
                 }
 
-                titleEl.innerText = `${selectedVignettes[0].title} & ${selectedVignettes[1].title}`;
-                textEl.innerText = connections[connectionKey] || "Bu iki hikaye arasındaki bağlantı metni bulunamadı.";
+                titleEl.innerText = `${selectedVignettes[0].title} and ${selectedVignettes[1].title}`;
+                textEl.innerText = connections[connectionKey] || "No connection text found for these two stories.";
                 textEl.classList.remove('instruction');
             } else if (selectedVignettes.length === 1) {
                 titleEl.innerText = selectedVignettes[0].title;
-                textEl.innerText = "Bağlantıyı görmek için bir vignette daha seçin.";
+                textEl.innerText = "Select one more vignette to see the connection.";
                 textEl.classList.add('instruction');
             } else {
-                titleEl.innerText = "Bağlantıyı Keşfet";
-                textEl.innerText = "Ortak temaları ve bağlantıları görmek için köşelerdeki 4 vignetteden 2 tanesini seçin.";
+                titleEl.innerText = "Explore the Connection";
+                textEl.innerText = "Select 2 vignettes from the corners to see their common themes and connections.";
                 textEl.classList.add('instruction');
             }
         }
