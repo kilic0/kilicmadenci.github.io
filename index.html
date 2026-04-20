@@ -1,1 +1,214 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vignette Connections</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
 
+        .container {
+            position: relative;
+            width: 90vw;
+            height: 90vh;
+            max-width: 1200px;
+            max-height: 800px;
+            background: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .vignette {
+            position: absolute;
+            width: 180px;
+            height: 200px;
+            cursor: pointer;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 10px;
+            background: #fff;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 2px solid transparent;
+        }
+
+        .vignette:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .vignette.selected {
+            border-color: #e74c3c;
+            box-shadow: 0 0 15px rgba(231, 76, 60, 0.4);
+            transform: scale(1.05);
+        }
+
+        .vignette img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            background-color: #ddd; /* Fotoğraf yüklenmezse gri arka plan */
+        }
+
+        .vignette h3 {
+            margin: 10px 0 0 0;
+            font-size: 16px;
+            color: #333;
+        }
+
+        /* 4 Köşe Konumlandırması */
+        .top-left { top: 20px; left: 20px; }
+        .top-right { top: 20px; right: 20px; }
+        .bottom-left { bottom: 20px; left: 20px; }
+        .bottom-right { bottom: 20px; right: 20px; }
+
+        /* Merkez Bağlantı Paneli */
+        .center-panel {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50%;
+            padding: 30px;
+            background: #fff;
+            border: 2px dashed #ccc;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 200px;
+        }
+
+        .center-panel h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 22px;
+        }
+
+        .center-panel p {
+            color: #555;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .instruction {
+            color: #888;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="vignette top-left" data-id="my_name">
+            <img src="https://via.placeholder.com/150/FF9999/FFFFFF?text=Window" alt="My Name">
+            <h3>My Name</h3>
+        </div>
+        
+        <div class="vignette top-right" data-id="smart_cookie">
+            <img src="https://via.placeholder.com/150/99CCFF/FFFFFF?text=Needle+Thread" alt="A Smart Cookie">
+            <h3>A Smart Cookie</h3>
+        </div>
+        
+        <div class="vignette bottom-left" data-id="no_speak">
+            <img src="https://via.placeholder.com/150/99FF99/FFFFFF?text=Pink+House" alt="No Speak English">
+            <h3>No Speak English</h3>
+        </div>
+        
+        <div class="vignette bottom-right" data-id="mango">
+            <img src="https://via.placeholder.com/150/FFCC99/FFFFFF?text=Books" alt="Mango Says Goodbye">
+            <h3>Mango Says Goodbye</h3>
+        </div>
+
+        <div class="center-panel" id="centerPanel">
+            <h2 id="connectionTitle">Bağlantıyı Keşfet</h2>
+            <p id="connectionText" class="instruction">Ortak temaları ve bağlantıları görmek için köşelerdeki 4 vignetteden 2 tanesini seçin.</p>
+        </div>
+    </div>
+
+    <script>
+        // Bağlantı metinleri veri tabanı
+        const connections = {
+            "my_name_smart_cookie": "İkisi de içsel potansiyellerini (biri 'vahşi at', diğeri 'zeki kız' olarak) toplumsal baskılar, yoksulluk utancı veya zorbalık nedeniyle ev içine hapsetmek zorunda kalmıştır.",
+            "my_name_no_speak": "Ortak Sembol: 'Pencere'. İkisi de bu hapsolmuşluğu yaşar; büyük babaanne zorla evlilikle, Mamacita ise dil bariyeriyle dünyayı sadece izledikleri bir 'hüzün koltuğuna' mahkum olmuştur.",
+            "my_name_mango": "Mirasın Reddi: Esperanza büyük babaannesinin ismini alsa da, onun pencere kenarındaki hüzünlü kaderini miras almayı kesin bir dille reddederek kendi kimliğini yazar.",
+            "smart_cookie_no_speak": "Kadın potansiyelinin dış engeller (dil bariyeri ve yoksulluk utancı) yüzünden nasıl 'görünmez kafeslere' hapsolduğunu gösterirler. İkisi de eve kapanmış figürlerdir.",
+            "smart_cookie_mango": "Annesi zekasına rağmen potansiyelini utanç yüzünden harcamışken, Esperanza annesinin bu trajik hikayesinden ders alıp okuyarak ve yazarak kendi özgürlüğünü eline alır.",
+            "no_speak_mango": "Mamacita dil bariyeriyle geçmişe hapsolup 'pembe evine' hasret kalırken, Esperanza yeni dilin (yazmanın) gücünü kullanarak Mango Sokağı'na veda edip kendi geleceğini inşa eder."
+        };
+
+        const vignettes = document.querySelectorAll('.vignette');
+        let selectedVignettes = [];
+
+        vignettes.forEach(v => {
+            v.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                const title = this.querySelector('h3').innerText;
+
+                // Zaten seçiliyse seçimi kaldır
+                if (selectedVignettes.some(item => item.id === id)) {
+                    this.classList.remove('selected');
+                    selectedVignettes = selectedVignettes.filter(item => item.id !== id);
+                } 
+                // İkiden az seçim varsa ekle
+                else if (selectedVignettes.length < 2) {
+                    this.classList.add('selected');
+                    selectedVignettes.push({id, title});
+                } 
+                // İki tane zaten seçiliyse, ilkini çıkar, yenisini ekle
+                else {
+                    const firstSelected = document.querySelector(`.vignette[data-id="${selectedVignettes[0].id}"]`);
+                    firstSelected.classList.remove('selected');
+                    selectedVignettes.shift();
+                    
+                    this.classList.add('selected');
+                    selectedVignettes.push({id, title});
+                }
+
+                updateCenterPanel();
+            });
+        });
+
+        function updateCenterPanel() {
+            const titleEl = document.getElementById('connectionTitle');
+            const textEl = document.getElementById('connectionText');
+
+            if (selectedVignettes.length === 2) {
+                const id1 = selectedVignettes[0].id;
+                const id2 = selectedVignettes[1].id;
+                
+                // İki ID'nin kombinasyonunu bul (sıra fark etmeksizin)
+                let connectionKey = `${id1}_${id2}`;
+                if (!connections[connectionKey]) {
+                    connectionKey = `${id2}_${id1}`;
+                }
+
+                titleEl.innerText = `${selectedVignettes[0].title} & ${selectedVignettes[1].title}`;
+                textEl.innerText = connections[connectionKey] || "Bu iki hikaye arasındaki bağlantı metni bulunamadı.";
+                textEl.classList.remove('instruction');
+            } else if (selectedVignettes.length === 1) {
+                titleEl.innerText = selectedVignettes[0].title;
+                textEl.innerText = "Bağlantıyı görmek için bir vignette daha seçin.";
+                textEl.classList.add('instruction');
+            } else {
+                titleEl.innerText = "Bağlantıyı Keşfet";
+                textEl.innerText = "Ortak temaları ve bağlantıları görmek için köşelerdeki 4 vignetteden 2 tanesini seçin.";
+                textEl.classList.add('instruction');
+            }
+        }
+    </script>
+</body>
+</html>
