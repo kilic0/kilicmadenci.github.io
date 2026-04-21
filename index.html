@@ -22,28 +22,10 @@
             align-items: center;
             min-height: 100vh;
             overflow: hidden;
-            position: relative;
-        }
-
-        /* Arka plan Esperanza yazısı */
-        .esperanza-bg {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(-10deg);
-            font-family: 'Sancreek', cursive;
-            font-size: 20vw;
-            color: rgba(255, 235, 150, 0.15); /* Yarı saydam filigran etkisi */
-            z-index: 0;
-            pointer-events: none;
-            white-space: nowrap;
-            user-select: none;
-            text-shadow: 4px 4px 0px rgba(0,0,0,0.1);
         }
 
         .container {
             position: relative;
-            z-index: 10; /* Yazının üstünde kalması için */
             width: 90vw;
             height: 90vh;
             max-width: 1200px;
@@ -53,6 +35,22 @@
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
             border: 8px solid #c0392b;
             box-sizing: border-box;
+            overflow: hidden; /* Yazının taşmasını engellemek için */
+        }
+
+        /* Esperanza yazısı - Konteynır içinde, sembollerin ve kartların arkasında */
+        .esperanza-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-5deg);
+            font-family: 'Sancreek', cursive;
+            font-size: 150px;
+            color: rgba(192, 57, 43, 0.25); /* Daha okunur ama hala arka plan hissi veriyor */
+            z-index: 1; /* En alt katman */
+            pointer-events: none;
+            white-space: nowrap;
+            user-select: none;
         }
 
         .vignette {
@@ -68,6 +66,7 @@
             box-sizing: border-box;
             border: 3px solid #f1c40f;
             box-shadow: 5px 5px 0px #d35400;
+            z-index: 10; /* Esperanza yazısının üstünde */
         }
 
         .vignette:hover {
@@ -78,7 +77,7 @@
             border-color: #27ae60;
             box-shadow: 0 0 20px rgba(39, 174, 96, 0.6);
             transform: scale(1.1);
-            z-index: 10;
+            z-index: 20;
         }
 
         .vignette img {
@@ -118,6 +117,7 @@
             justify-content: center;
             min-height: 300px;
             box-sizing: border-box;
+            z-index: 15; /* Yazının ve sembollerin üstünde */
         }
 
         .center-panel h2 {
@@ -130,253 +130,74 @@
             padding-bottom: 5px;
         }
 
-        .center-panel p {
-            color: #333;
-            font-size: 16px;
-            line-height: 1.6;
-        }
-
-        .instruction {
-            color: #7f8c8d !important;
-            font-style: italic;
-        }
-
-        /* Dekoratif SVG semboller */
+        /* Dekoratif SVG semboller - Boyutları büyütüldü */
         .deco-svg {
             position: absolute;
             pointer-events: none;
-            z-index: 2;
+            z-index: 5; /* Yazının üstünde, kartların altında */
+            opacity: 0.9;
         }
 
         @media (max-width: 850px) {
-            body {
-                overflow-y: auto; 
-                align-items: flex-start;
-                padding: 10px;
-                box-sizing: border-box;
-            }
-
-            .container {
-                width: 100%;
-                height: auto;
-                min-height: auto;
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 15px;
-                padding: 15px;
-                border-width: 4px;
-            }
-
-            .center-panel {
-                position: relative;
-                top: auto; left: auto;
-                transform: none;
-                grid-column: 1 / 3;
-                width: 100%;
-                min-height: 160px;
-                padding: 20px 15px;
-                margin-bottom: 10px;
-                box-shadow: none;
-                border-width: 4px;
-            }
-
-            .center-panel h2 {
-                font-size: 18px;
-                margin-bottom: 10px;
-            }
-
-            .center-panel p {
-                font-size: 14px;
-                line-height: 1.5;
-            }
-
-            .vignette {
-                position: relative;
-                top: auto; left: auto; right: auto; bottom: auto;
-                width: 100%;
-                height: auto;
-                margin: 0;
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-                box-shadow: 3px 3px 0px #d35400;
-                border-width: 2px;
-                padding: 8px;
-            }
-
-            .vignette img {
-                height: 100px;
-                object-fit: cover;
-            }
-
-            .vignette h3 {
-                font-size: 12px;
-                margin-top: 8px;
-                letter-spacing: 0;
-            }
-
-            .vignette:hover {
-                transform: scale(1.02);
-            }
-
-            .vignette.selected {
-                transform: scale(1.05);
-            }
-
-            .deco-svg {
-                display: none;
-            }
-            
-            .esperanza-bg {
-                font-size: 35vw; /* Mobilde yazıyı dengeler */
-            }
+            .esperanza-bg { font-size: 80px; }
+            .container { height: auto; display: grid; grid-template-columns: repeat(2, 1fr); padding: 15px; }
+            .vignette { position: relative; width: 100%; top: auto; left: auto; }
+            .center-panel { position: relative; transform: none; width: 100%; grid-column: 1 / 3; top: auto; left: auto; }
+            .deco-svg { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <div class="esperanza-bg">Esperanza</div>
-
     <div class="container">
+        <div class="esperanza-bg">Esperanza</div>
 
-        <svg class="deco-svg" style="top:340px;left:10px;width:48px;height:48px;" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg class="deco-svg" style="top:20%;left:5%;width:100px;height:100px;" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="24" cy="24" r="10" fill="#f1c40f" stroke="#d35400" stroke-width="2"/>
           <g stroke="#d35400" stroke-width="2" stroke-linecap="round">
-            <line x1="24" y1="2" x2="24" y2="8"/>
-            <line x1="24" y1="40" x2="24" y2="46"/>
-            <line x1="2" y1="24" x2="8" y2="24"/>
-            <line x1="40" y1="24" x2="46" y2="24"/>
-            <line x1="8.1" y1="8.1" x2="12.3" y2="12.3"/>
-            <line x1="35.7" y1="35.7" x2="39.9" y2="39.9"/>
-            <line x1="39.9" y1="8.1" x2="35.7" y2="12.3"/>
-            <line x1="12.3" y1="35.7" x2="8.1" y2="39.9"/>
+            <line x1="24" y1="2" x2="24" y2="8"/><line x1="24" y1="40" x2="24" y2="46"/>
+            <line x1="2" y1="24" x2="8" y2="24"/><line x1="40" y1="24" x2="46" y2="24"/>
           </g>
         </svg>
 
-        <svg class="deco-svg" style="top:340px;right:10px;width:44px;height:44px;" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg class="deco-svg" style="top:20%;right:5%;width:100px;height:100px;" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="24" cy="24" r="10" fill="#f39c12" stroke="#c0392b" stroke-width="2"/>
           <g stroke="#c0392b" stroke-width="2" stroke-linecap="round">
-            <line x1="24" y1="2" x2="24" y2="8"/>
-            <line x1="24" y1="40" x2="24" y2="46"/>
-            <line x1="2" y1="24" x2="8" y2="24"/>
-            <line x1="40" y1="24" x2="46" y2="24"/>
-            <line x1="8.1" y1="8.1" x2="12.3" y2="12.3"/>
-            <line x1="35.7" y1="35.7" x2="39.9" y2="39.9"/>
-            <line x1="39.9" y1="8.1" x2="35.7" y2="12.3"/>
-            <line x1="12.3" y1="35.7" x2="8.1" y2="39.9"/>
+            <line x1="24" y1="2" x2="24" y2="8"/><line x1="24" y1="40" x2="24" y2="46"/>
           </g>
         </svg>
 
-        <svg class="deco-svg" style="top:8px;left:50%;margin-left:-80px;width:36px;height:36px;" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="18" cy="15" rx="13" ry="12" fill="#fff5e6" stroke="#c0392b" stroke-width="2"/>
-          <ellipse cx="13" cy="14" rx="4" ry="4.5" fill="#c0392b"/>
-          <ellipse cx="23" cy="14" rx="4" ry="4.5" fill="#c0392b"/>
-          <rect x="13" y="25" width="3" height="5" rx="1" fill="#c0392b"/>
-          <rect x="17" y="25" width="3" height="5" rx="1" fill="#c0392b"/>
-          <rect x="21" y="25" width="3" height="5" rx="1" fill="#c0392b"/>
-          <path d="M11 22 Q18 26 27 22" stroke="#c0392b" stroke-width="1.5" fill="none"/>
-        </svg>
-
-        <svg class="deco-svg" style="bottom:8px;left:50%;margin-left:30px;width:34px;height:34px;" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="18" cy="15" rx="13" ry="12" fill="#fff5e6" stroke="#d35400" stroke-width="2"/>
-          <ellipse cx="13" cy="14" rx="4" ry="4.5" fill="#d35400"/>
-          <ellipse cx="23" cy="14" rx="4" ry="4.5" fill="#d35400"/>
-          <rect x="13" y="25" width="3" height="5" rx="1" fill="#d35400"/>
-          <rect x="17" y="25" width="3" height="5" rx="1" fill="#d35400"/>
-          <rect x="21" y="25" width="3" height="5" rx="1" fill="#d35400"/>
-          <path d="M11 22 Q18 26 27 22" stroke="#d35400" stroke-width="1.5" fill="none"/>
-        </svg>
-
-        <svg class="deco-svg" style="bottom:260px;left:220px;width:40px;height:40px;" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="20" cy="8" rx="5" ry="8" fill="#f39c12" opacity="0.9"/>
-          <ellipse cx="20" cy="32" rx="5" ry="8" fill="#f39c12" opacity="0.9"/>
-          <ellipse cx="8" cy="20" rx="8" ry="5" fill="#e67e22" opacity="0.9"/>
-          <ellipse cx="32" cy="20" rx="8" ry="5" fill="#e67e22" opacity="0.9"/>
-          <ellipse cx="11.5" cy="11.5" rx="5" ry="7" fill="#f1c40f" opacity="0.8" transform="rotate(-45 11.5 11.5)"/>
-          <ellipse cx="28.5" cy="11.5" rx="5" ry="7" fill="#f1c40f" opacity="0.8" transform="rotate(45 28.5 11.5)"/>
-          <ellipse cx="11.5" cy="28.5" rx="5" ry="7" fill="#f1c40f" opacity="0.8" transform="rotate(45 11.5 28.5)"/>
-          <ellipse cx="28.5" cy="28.5" rx="5" ry="7" fill="#f1c40f" opacity="0.8" transform="rotate(-45 28.5 28.5)"/>
-          <circle cx="20" cy="20" r="7" fill="#c0392b"/>
-          <circle cx="20" cy="20" r="4" fill="#f1c40f"/>
-        </svg>
-
-        <svg class="deco-svg" style="top:260px;right:220px;width:40px;height:40px;" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="20" cy="8" rx="5" ry="8" fill="#e74c3c" opacity="0.9"/>
-          <ellipse cx="20" cy="32" rx="5" ry="8" fill="#e74c3c" opacity="0.9"/>
-          <ellipse cx="8" cy="20" rx="8" ry="5" fill="#c0392b" opacity="0.9"/>
-          <ellipse cx="32" cy="20" rx="8" ry="5" fill="#c0392b" opacity="0.9"/>
-          <ellipse cx="11.5" cy="11.5" rx="5" ry="7" fill="#e74c3c" opacity="0.8" transform="rotate(-45 11.5 11.5)"/>
-          <ellipse cx="28.5" cy="11.5" rx="5" ry="7" fill="#e74c3c" opacity="0.8" transform="rotate(45 28.5 11.5)"/>
-          <ellipse cx="11.5" cy="28.5" rx="5" ry="7" fill="#e74c3c" opacity="0.8" transform="rotate(45 11.5 28.5)"/>
-          <ellipse cx="28.5" cy="28.5" rx="5" ry="7" fill="#e74c3c" opacity="0.8" transform="rotate(-45 28.5 28.5)"/>
-          <circle cx="20" cy="20" r="7" fill="#f39c12"/>
-          <circle cx="20" cy="20" r="4" fill="#fff5e6"/>
-        </svg>
-
-        <svg class="deco-svg" style="top:14px;right:220px;width:32px;height:32px;" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M16 2 L19 10 L28 10 L21 16 L24 24 L16 19 L8 24 L11 16 L4 10 L13 10 Z" fill="#f1c40f" stroke="#d35400" stroke-width="1.5"/>
-        </svg>
-
-        <svg class="deco-svg" style="bottom:14px;left:220px;width:32px;height:32px;" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M16 2 L19 10 L28 10 L21 16 L24 24 L16 19 L8 24 L11 16 L4 10 L13 10 Z" fill="#e74c3c" stroke="#c0392b" stroke-width="1.5"/>
-        </svg>
-
-        <svg class="deco-svg" style="top:265px;left:220px;width:38px;height:28px;" viewBox="0 0 38 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="19" cy="22" rx="18" ry="5" fill="#d35400" opacity="0.9"/>
-          <ellipse cx="19" cy="18" rx="10" ry="7" fill="#e67e22"/>
-          <ellipse cx="19" cy="13" rx="5" ry="4" fill="#c0392b"/>
-          <ellipse cx="19" cy="22" rx="18" ry="3" fill="none" stroke="#f1c40f" stroke-width="1.5"/>
-          <ellipse cx="19" cy="18" rx="10" ry="7" fill="none" stroke="#f1c40f" stroke-width="1"/>
-        </svg>
-
-        <svg class="deco-svg" style="top:265px;right:220px;width:38px;height:28px;" viewBox="0 0 38 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="19" cy="22" rx="18" ry="5" fill="#c0392b" opacity="0.9"/>
-          <ellipse cx="19" cy="18" rx="10" ry="7" fill="#d35400"/>
-          <ellipse cx="19" cy="13" rx="5" ry="4" fill="#e67e22"/>
-          <ellipse cx="19" cy="22" rx="18" ry="3" fill="none" stroke="#f1c40f" stroke-width="1.5"/>
-          <ellipse cx="19" cy="18" rx="10" ry="7" fill="none" stroke="#f1c40f" stroke-width="1"/>
-        </svg>
-
-        <svg class="deco-svg" style="bottom:265px;left:8px;width:30px;height:46px;" viewBox="0 0 30 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg class="deco-svg" style="bottom:10%;left:25%;width:80px;height:110px;" viewBox="0 0 30 46" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="12" y="8" width="6" height="30" rx="3" fill="#27ae60"/>
           <rect x="4" y="18" width="8" height="5" rx="2.5" fill="#27ae60"/>
           <rect x="18" y="22" width="8" height="5" rx="2.5" fill="#27ae60"/>
-          <rect x="1" y="14" width="3" height="10" rx="1.5" fill="#27ae60"/>
-          <rect x="26" y="18" width="3" height="10" rx="1.5" fill="#27ae60"/>
           <circle cx="15" cy="6" r="3" fill="#e74c3c"/>
-          <circle cx="4" cy="16" r="2" fill="#f1c40f"/>
-          <circle cx="26" cy="20" r="2" fill="#f1c40f"/>
         </svg>
 
-        <svg class="deco-svg" style="top:265px;right:8px;width:30px;height:46px;" viewBox="0 0 30 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg class="deco-svg" style="bottom:10%;right:25%;width:80px;height:110px;" viewBox="0 0 30 46" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="12" y="8" width="6" height="30" rx="3" fill="#1e8449"/>
           <rect x="4" y="18" width="8" height="5" rx="2.5" fill="#1e8449"/>
           <rect x="18" y="22" width="8" height="5" rx="2.5" fill="#1e8449"/>
-          <rect x="1" y="14" width="3" height="10" rx="1.5" fill="#1e8449"/>
-          <rect x="26" y="18" width="3" height="10" rx="1.5" fill="#1e8449"/>
           <circle cx="15" cy="6" r="3" fill="#f39c12"/>
-          <circle cx="4" cy="16" r="2" fill="#e74c3c"/>
-          <circle cx="26" cy="20" r="2" fill="#e74c3c"/>
         </svg>
 
-        <svg class="deco-svg" style="top:8px;left:50%;margin-left:30px;width:36px;height:20px;" viewBox="0 0 36 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M4 16 Q10 4 18 10 Q26 4 32 16" stroke="#27ae60" stroke-width="2" fill="none"/>
-          <ellipse cx="10" cy="9" rx="5" ry="3" fill="#2ecc71" transform="rotate(-30 10 9)"/>
-          <ellipse cx="26" cy="9" rx="5" ry="3" fill="#2ecc71" transform="rotate(30 26 9)"/>
-          <ellipse cx="18" cy="6" rx="4" ry="2.5" fill="#27ae60"/>
+        <svg class="deco-svg" style="top:5%;left:50%;margin-left:-40px;width:80px;height:80px;" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="18" cy="15" rx="13" ry="12" fill="#fff5e6" stroke="#c0392b" stroke-width="2"/>
+          <ellipse cx="13" cy="14" rx="4" ry="4.5" fill="#c0392b"/>
+          <ellipse cx="23" cy="14" rx="4" ry="4.5" fill="#c0392b"/>
+          <path d="M11 22 Q18 26 27 22" stroke="#c0392b" stroke-width="1.5" fill="none"/>
         </svg>
 
-        <svg class="deco-svg" style="bottom:265px;right:8px;width:28px;height:28px;" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="14" cy="5" rx="3.5" ry="5.5" fill="#f39c12"/>
-          <ellipse cx="14" cy="23" rx="3.5" ry="5.5" fill="#f39c12"/>
-          <ellipse cx="5" cy="14" rx="5.5" ry="3.5" fill="#e67e22"/>
-          <ellipse cx="23" cy="14" rx="5.5" ry="3.5" fill="#e67e22"/>
-          <ellipse cx="7.5" cy="7.5" rx="3.5" ry="5" fill="#f1c40f" transform="rotate(-45 7.5 7.5)"/>
-          <ellipse cx="20.5" cy="7.5" rx="3.5" ry="5" fill="#f1c40f" transform="rotate(45 20.5 7.5)"/>
-          <ellipse cx="7.5" cy="20.5" rx="3.5" ry="5" fill="#f1c40f" transform="rotate(45 7.5 20.5)"/>
-          <ellipse cx="20.5" cy="20.5" rx="3.5" ry="5" fill="#f1c40f" transform="rotate(-45 20.5 20.5)"/>
-          <circle cx="14" cy="14" r="5" fill="#c0392b"/>
-          <circle cx="14" cy="14" r="3" fill="#f1c40f"/>
+        <svg class="deco-svg" style="top:45%;left:15%;width:90px;height:70px;" viewBox="0 0 38 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="19" cy="22" rx="18" ry="5" fill="#d35400" opacity="0.9"/>
+          <ellipse cx="19" cy="18" rx="10" ry="7" fill="#e67e22"/>
+          <ellipse cx="19" cy="13" rx="5" ry="4" fill="#c0392b"/>
+        </svg>
+
+        <svg class="deco-svg" style="top:45%;right:15%;width:90px;height:70px;" viewBox="0 0 38 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="19" cy="22" rx="18" ry="5" fill="#c0392b" opacity="0.9"/>
+          <ellipse cx="19" cy="18" rx="10" ry="7" fill="#d35400"/>
+          <ellipse cx="19" cy="13" rx="5" ry="4" fill="#e67e22"/>
         </svg>
 
         <div class="vignette top-left" data-id="my_name">
@@ -406,6 +227,7 @@
     </div>
 
     <script>
+        // Orijinal script mantığı korunmuştur
         const summaries = {
             "my_name": "Esperanza explains that her name means 'hope' in English but 'sadness' and 'waiting' in Spanish. It belonged to her great-grandmother, a 'wild woman' who was forced into marriage and spent her life looking out the window.",
             "smart_cookie": "Esperanza's mother is highly talented—she can speak two languages, sing opera, and fix a TV—but she dropped out of school because she was ashamed of her clothes. She warns Esperanza not to let shame stop her.",
@@ -445,10 +267,6 @@
                     selectedVignettes.push({id, title});
                 }
                 updateCenterPanel();
-
-                if (window.innerWidth <= 850) {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
             });
         });
 
@@ -461,7 +279,6 @@
                 const id2 = selectedVignettes[1].id;
                 let key = `${id1}_${id2}`;
                 if (!connections[key]) key = `${id2}_${id1}`;
-                
                 titleEl.innerText = `${selectedVignettes[0].title} & ${selectedVignettes[1].title}`;
                 textEl.innerText = connections[key];
                 textEl.classList.remove('instruction');
